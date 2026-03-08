@@ -340,7 +340,7 @@
 async function subscribe(inputId, msgId) {
   var email = document.getElementById(inputId).value.trim();
   var msgEl = document.getElementById(msgId);
-  
+
   if (!email || !email.includes('@')) {
     msgEl.style.display = 'block';
     msgEl.style.color = '#ffaaaa';
@@ -353,35 +353,15 @@ async function subscribe(inputId, msgId) {
   msgEl.textContent = 'Envoi en cours...';
 
   try {
-    var res = await fetch('https://api.brevo.com/v3/contacts', {
+    var res = await fetch('/.netlify/functions/subscribe', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'api-key': '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'
-      },
-      body: JSON.stringify({
-        email: email,
-        listIds: [3],
-        updateEnabled: true
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email })
     });
 
-    if (res.status === 201 || res.status === 204) {
-      // Send freebie email via Brevo transactional
-      await fetch('https://api.brevo.com/v3/smtp/email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'api-key': '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'
-        },
-        body: JSON.stringify({
-          sender: { name: 'Nico', email: 'masia.nicolas.07@gmail.com' },
-          to: [{ email: email }],
-          subject: 'Ton guide gratuit — Trouve ton produit digital',
-          htmlContent: '<div style="font-family:Inter,sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;background:#fff;"><h2 style="font-size:24px;color:#CC0000;margin-bottom:8px;">NICOFAITLESCHOSES</h2><p style="color:#555;font-size:14px;line-height:1.7;margin-bottom:24px;">Voilà ton guide gratuit.<br>5 questions. 10 minutes. Une direction claire.</p><a href="https://nicofaitleschoses.gumroad.com/l/freebie" style="display:inline-block;background:#CC0000;color:#fff;text-decoration:none;padding:14px 28px;font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;">Télécharger le guide →</a><p style="color:#aaa;font-size:11px;margin-top:32px;">Tu reçois cet email parce que tu as demandé le guide sur nicofaitleschoses.com</p></div>'
-        })
-      });
+    var data = await res.json();
 
+    if (res.ok && data.success) {
       msgEl.style.color = '#90ee90';
       msgEl.textContent = '✓ Guide envoyé ! Vérifie ta boite mail.';
       document.getElementById(inputId).value = '';
