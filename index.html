@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NICOFAITLESCHOSES</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red:#CC0000;
+    --black:#0D0D0D;
+    --bg:#F5F4F2;
+    --card:#FFFFFF;
+    --dark:#1A1A1A;
+    --white:#FFFFFF;
+    --grey:#888;
+    --light:#555;
+    --border:#E5E5E5;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--bg); color:var(--dark); font-family:'Inter',sans-serif; overflow-x:hidden; }
+
+  /* HERO — sombre mais pas total */
+  .hero {
+    background:var(--black);
+    padding:44px 24px 40px;
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    position:relative;
+  }
+  .hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:var(--red); }
+  .badge { font-size:10px; color:var(--red); letter-spacing:4px; text-transform:uppercase; font-weight:600; border:1px solid #CC000055; padding:7px 16px; margin-bottom:18px; }
+  .hero-name { font-family:'Bebas Neue',sans-serif; font-size:clamp(56px,12vw,120px); line-height:0.88; letter-spacing:6px; color:#FFFFFF; }
+  .hero-name em { color:var(--red); font-style:normal; }
+  .hero-sub { font-size:14px; color:#AAAAAA; font-weight:300; margin-top:14px; line-height:1.8; }
+  .hero-stats { display:flex; gap:40px; margin-top:24px; padding-bottom:8px; }
+  .stat-n { font-family:'Bebas Neue',sans-serif; font-size:34px; color:var(--red); }
+  .stat-l { font-size:10px; color:#666; letter-spacing:3px; text-transform:uppercase; margin-top:2px; }
+
+  /* LEAD CAPTURE — bande rouge vif */
+  .lead-band {
+    background:var(--red);
+    padding:32px 24px;
+    text-align:center;
+  }
+  .lead-band h2 { font-family:'Bebas Neue',sans-serif; font-size:clamp(22px,4vw,36px); color:#fff; letter-spacing:2px; margin-bottom:6px; }
+  .lead-band p { font-size:13px; color:rgba(255,255,255,0.85); margin-bottom:20px; font-weight:300; }
+  .lead-form { display:flex; gap:8px; max-width:480px; margin:0 auto; justify-content:center; flex-wrap:wrap; }
+  .lead-form input {
+    flex:1; min-width:200px; padding:14px 18px;
+    border:none; font-size:13px; font-family:'Inter',sans-serif;
+    outline:none; background:#fff; color:var(--dark);
+  }
+  .lead-form input::placeholder { color:#aaa; }
+  .lead-btn {
+    background:var(--dark); color:#fff;
+    font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    padding:14px 24px; border:none; cursor:pointer; white-space:nowrap;
+    transition:background 0.2s;
+    text-decoration:none; display:inline-flex; align-items:center;
+  }
+  .lead-btn:hover { background:#333; }
+  .lead-sub { font-size:11px; color:rgba(255,255,255,0.6); margin-top:10px; }
+
+  /* QUOTE */
+  .quote { background:#fff; padding:40px 24px; text-align:center; border-bottom:1px solid var(--border); }
+  .quote p { font-family:'Bebas Neue',sans-serif; font-size:clamp(20px,3.5vw,38px); letter-spacing:2px; line-height:1.35; max-width:680px; margin:0 auto; color:var(--dark); }
+  .quote p em { color:var(--red); font-style:normal; }
+
+  /* WRAP */
+  .wrap { max-width:1080px; margin:0 auto; padding:52px 24px 48px; }
+  .cat-label { font-size:10px; color:var(--red); letter-spacing:4px; text-transform:uppercase; font-weight:600; margin-bottom:6px; }
+  .cat-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(28px,5vw,52px); letter-spacing:3px; line-height:1; margin-bottom:28px; color:var(--dark); }
+  .cat-head { display:inline-block; border:2px solid var(--red); padding:12px 20px 10px; margin-bottom:28px; }
+  .cat-head .cat-label { margin-bottom:4px; }
+  .cat-head .cat-title { margin-bottom:0; }
+
+  /* CARD */
+  .card {
+    background:var(--card);
+    text-decoration:none; color:inherit;
+    position:relative; overflow:hidden;
+    border:1px solid var(--border);
+    transition:border-color 0.3s, transform 0.25s, box-shadow 0.25s;
+    display:block;
+    box-shadow:0 2px 12px rgba(0,0,0,0.06);
+  }
+  .card:hover { border-color:#CC000044; transform:translateY(-2px); box-shadow:0 8px 32px rgba(0,0,0,0.10); }
+  .card + .card { margin-top:24px; }
+  .card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--red); transform:scaleY(0); transform-origin:bottom; transition:transform 0.35s ease; z-index:3; }
+  .card:hover::before { transform:scaleY(1); }
+
+  /* CARD HEADER */
+  .card-header {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:16px 22px 14px;
+    border-bottom:1px solid var(--border);
+    background:#FAFAFA;
+  }
+  .card-header-left { display:flex; flex-direction:column; gap:3px; }
+  .card-name { font-family:'Bebas Neue',sans-serif; font-size:clamp(16px,2vw,22px); letter-spacing:1px; line-height:1; color:var(--dark); }
+  .card-step { font-size:10px; color:var(--red); letter-spacing:3px; text-transform:uppercase; font-weight:600; }
+  .card-header-right { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+
+  /* CARD INNER */
+  .card-inner { display:grid; grid-template-columns:1fr 1.2fr; }
+  .card-img { overflow:hidden; min-height:260px; background:#F0F0F0; display:flex; align-items:center; justify-content:center; }
+  .card-img img { width:100%; height:100%; object-fit:contain; object-position:center; display:block; transition:transform 0.5s ease; padding:24px; }
+  .card:hover .card-img img { transform:scale(1.04); }
+
+  .card-body { padding:28px 28px 24px; display:flex; flex-direction:column; justify-content:center; border-left:1px solid var(--border); }
+  .card-obtiens { font-size:11px; color:var(--grey); letter-spacing:2px; text-transform:uppercase; font-weight:600; margin-bottom:14px; }
+  .card-bullets { list-style:none; margin-bottom:22px; display:flex; flex-direction:column; gap:10px; }
+  .card-bullets li { font-size:13px; color:var(--light); font-weight:400; padding-left:18px; position:relative; line-height:1.5; }
+  .card-bullets li::before { content:'→'; position:absolute; left:0; color:var(--red); font-size:12px; font-weight:700; }
+
+  .card-cta { display:flex; align-items:center; justify-content:space-between; padding-top:18px; border-top:1px solid var(--border); }
+  .price-detail { display:flex; flex-direction:column; }
+  .price-big { font-family:'Bebas Neue',sans-serif; font-size:30px; line-height:1; color:var(--dark); }
+  .price-big.free { color:var(--red); font-size:24px; }
+  .price-sub { font-size:10px; color:var(--grey); letter-spacing:1px; margin-top:3px; }
+
+  .btn {
+    background:var(--red); color:#fff;
+    font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    padding:13px 22px; text-decoration:none; display:inline-flex; align-items:center;
+    transition:all 0.2s; white-space:nowrap;
+  }
+  .btn:hover { background:#aa0000; box-shadow:0 4px 16px rgba(204,0,0,0.3); }
+  .btn.ghost { background:transparent; border:2px solid var(--red); color:var(--red); }
+  .btn.ghost:hover { background:var(--red); color:#fff; }
+
+  /* CAT SEP */
+  .cat-sep { max-width:1080px; margin:0 auto; height:1px; background:linear-gradient(90deg,transparent,var(--red) 20%,var(--red) 80%,transparent); opacity:0.25; }
+
+  /* BOTTOM LEAD */
+  .bottom-lead {
+    background:var(--dark); padding:52px 24px; text-align:center; margin-top:0;
+  }
+  .bottom-lead h3 { font-family:'Bebas Neue',sans-serif; font-size:clamp(24px,4vw,42px); color:#fff; letter-spacing:2px; margin-bottom:8px; }
+  .bottom-lead h3 em { color:var(--red); font-style:normal; }
+  .bottom-lead p { font-size:13px; color:#888; margin-bottom:24px; font-weight:300; max-width:420px; margin-left:auto; margin-right:auto; }
+
+  footer { padding:28px 24px; text-align:center; border-top:1px solid var(--border); background:#fff; }
+  footer span { font-size:11px; color:var(--grey); letter-spacing:3px; text-transform:uppercase; }
+
+  @media(max-width:640px){
+    .card-inner { grid-template-columns:1fr; }
+    .card-img { min-height:180px; }
+    .card-body { border-left:none; border-top:1px solid var(--border); padding:20px 18px; }
+    .hero-stats { gap:20px; }
+    .card-header { flex-wrap:wrap; gap:8px; }
+    .lead-form { flex-direction:column; }
+    .lead-form input { width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">Solo Builder &middot; Cr&eacute;ateur de Syst&egrave;mes</div>
+  <h1 class="hero-name">NICO<em>FAIT</em><br>LES CHOSES</h1>
+  <p class="hero-sub">De l&apos;id&eacute;e jusqu&apos;&agrave; la vente.<br>Construit en public. Z&eacute;ro budget investi.</p>
+  <div class="hero-stats">
+    <div><div class="stat-n">1,7M</div><div class="stat-l">Vues / 30j</div></div>
+    <div><div class="stat-n">130+</div><div class="stat-l">Abonn&eacute;s</div></div>
+    <div><div class="stat-n">4</div><div class="stat-l">Produits</div></div>
+  </div>
+</section>
+
+<!-- LEAD CAPTURE BAND -->
+<div class="lead-band">
+  <h2>T&apos;as quelque chose &agrave; vendre.<br>Tu sais pas encore quoi.</h2>
+  <p>5 questions. 10 minutes. Re&ccedil;ois le guide gratuit directement par mail.</p>
+  <div class="lead-form" id="form-top">
+    <input type="email" id="email-top" placeholder="Ton adresse email..." autocomplete="email">
+    <button class="lead-btn" onclick="subscribe('email-top','msg-top')">Recevoir le guide &rarr;</button>
+  </div>
+  <div id="msg-top" style="margin-top:12px;font-size:13px;color:#fff;display:none;"></div>
+  <div class="lead-sub">Z&eacute;ro spam &middot; D&eacute;sinscription en 1 clic</div>
+</div>
+
+<!-- QUOTE -->
+<div class="quote">
+  <p>De l&apos;id&eacute;e jusqu&apos;&agrave; la vente.<br><em>Voil&agrave; exactement ce qu&apos;on construit ici.</em></p>
+</div>
+
+<!-- CAT 1 -->
+<div class="wrap">
+  <div class="cat-head"><div class="cat-label">Cat&eacute;gorie 01</div><div class="cat-title">CR&Eacute;ATION</div></div>
+
+  <a href="https://nicofaitleschoses.gumroad.com/l/freebie" target="_blank" class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-step">&Eacute;tape 1 &middot; Point de d&eacute;part</div>
+        <div class="card-name">TROUVE TON PRODUIT DIGITAL</div>
+      </div>
+      <div class="card-header-right">
+        <span class="btn ghost">T&eacute;l&eacute;charger &rarr;</span>
+      </div>
+    </div>
+    <div class="card-inner">
+      <div class="card-img"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDEyMDAgNjAwIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmdib29rX2ZyZWViaWUuc3ZnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzBkMGQwZCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMxODE4MTgiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImZhY2Vib29rX2ZyZWViaWUuc3ZnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzI1MjUyNSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMwZjBmMGYiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InNwaW5lYm9va19mcmVlYmllLnN2ZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMGEwYTBhIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzFlMWUxZSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0idG9wYm9va19mcmVlYmllLnN2ZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojM2EzYTNhIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzIyMjIyMiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxmaWx0ZXIgaWQ9InNoYWRvd2Jvb2tfZnJlZWJpZS5zdmciPgogICAgICA8ZmVEcm9wU2hhZG93IGR4PSIxMCIgZHk9IjIwIiBzdGREZXZpYXRpb249IjIwIiBmbG9vZC1jb2xvcj0iIzAwMDAwMCIgZmxvb2Qtb3BhY2l0eT0iMC45Ii8+CiAgICA8L2ZpbHRlcj4KICAgIDxmaWx0ZXIgaWQ9Imdsb3ciPgogICAgICA8ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIzIiByZXN1bHQ9ImJsdXIiLz4KICAgICAgPGZlTWVyZ2U+PGZlTWVyZ2VOb2RlIGluPSJibHVyIi8+PGZlTWVyZ2VOb2RlIGluPSJTb3VyY2VHcmFwaGljIi8+PC9mZU1lcmdlPgogICAgPC9maWx0ZXI+CiAgPC9kZWZzPgogIAogIDwhLS0gQmFja2dyb3VuZCAtLT4KICA8cmVjdCB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9InVybCgjYmdib29rX2ZyZWViaWUuc3ZnKSIvPgogIAogIDwhLS0gU3VidGxlIGdyb3VuZCByZWZsZWN0aW9uL2dsb3cgLS0+CiAgPGVsbGlwc2UgY3g9IjI4MCIgY3k9IjU3MCIgcng9IjIyMCIgcnk9IjMwIiBmaWxsPSIjMDAwMDAwIiBvcGFjaXR5PSIwLjYiLz4KICA8ZWxsaXBzZSBjeD0iMjgwIiBjeT0iNTU1IiByeD0iMTUwIiByeT0iMTUiIGZpbGw9IiNDQzAwMDAiIG9wYWNpdHk9IjAuMDUiLz4KCiAgPCEtLSBCT09LIEdST1VQIC0tPgogIDxnIGZpbHRlcj0idXJsKCNzaGFkb3dib29rX2ZyZWViaWUuc3ZnKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODAsIDUwKSI+CiAgICA8IS0tIEJvb2sgc3BpbmUgKGxlZnQgcGFyYWxsZWxvZ3JhbSkgLS0+CiAgICA8cG9seWdvbiBwb2ludHM9IjAsNjAgNDUsMzAgNDUsNDkwIDAsNTIwIiBmaWxsPSJ1cmwoI3NwaW5lYm9va19mcmVlYmllLnN2ZykiLz4KICAgIDwhLS0gQm9vayB0b3AgLS0+CiAgICA8cG9seWdvbiBwb2ludHM9IjAsNjAgNDUsMzAgMzQ1LDMwIDMwMCw2MCIgZmlsbD0idXJsKCN0b3Bib29rX2ZyZWViaWUuc3ZnKSIvPgogICAgPCEtLSBCb29rIGZhY2UgKGZyb250KSAtLT4KICAgIDxyZWN0IHg9IjQ1IiB5PSI2MCIgd2lkdGg9IjMwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjZmFjZWJvb2tfZnJlZWJpZS5zdmcpIi8+CiAgICAKICAgIDwhLS0gU3VidGxlIGVkZ2UgaGlnaGxpZ2h0IC0tPgogICAgPGxpbmUgeDE9IjQ1IiB5MT0iNjAiIHgyPSI0NSIgeTI9IjUyMCIgc3Ryb2tlPSIjM2EzYTNhIiBzdHJva2Utd2lkdGg9IjEiIG9wYWNpdHk9IjAuNSIvPgogICAgPGxpbmUgeDE9IjQ1IiB5MT0iNjAiIHgyPSIzNDUiIHkyPSI2MCIgc3Ryb2tlPSIjM2EzYTNhIiBzdHJva2Utd2lkdGg9IjEiIG9wYWNpdHk9IjAuMyIvPgoKICAgIDwhLS0gQm9vayBjb250ZW50IC0gYWxsIGNvbnRhaW5lZCB3aXRoaW4geDozMC0yNzAgcmVsYXRpdmUgdG8gZmFjZSBzdGFydCAoNzUtMzE1IGFic29sdXRlIGluIGdyb3VwKSAtLT4KICAgIDx0ZXh0IHg9Ijc1IiB5PSIxMDgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgZmlsbD0iI0NDMDAwMCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxldHRlci1zcGFjaW5nPSIzIj5OSUNPRkFJVExFU0NIT1NFUzwvdGV4dD4KICAgIAogICAgPCEtLSBUb3AgcmVkIGJhciAtLT4KICAgIDxyZWN0IHg9Ijc1IiB5PSIxMTgiIHdpZHRoPSI0NCIgaGVpZ2h0PSIzIiBmaWxsPSIjQ0MwMDAwIi8+CiAgICAKICAgIDwhLS0gQm9vayB0aXRsZSBsaW5lcyAtIGNvbnN0cmFpbmVkIC0tPgogICAgPHRleHQgeD0iNzUiIHk9IjE2OCIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjQ0MwMDAwIj5UUk9VVkUgVE9OPC90ZXh0PgogICAgPHRleHQgeD0iNzUiIHk9IjIwNCIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjQ0MwMDAwIj5QUk9EVUlUIERJR0lUQUw8L3RleHQ+CiAgICAKICAgIDwhLS0gRGl2aWRlciAtLT4KICAgIDxyZWN0IHg9Ijc1IiB5PSIyMzAiIHdpZHRoPSIzNiIgaGVpZ2h0PSIyLjUiIGZpbGw9IiNDQzAwMDAiLz4KICAgIAogICAgPCEtLSBTdWJ0aXRsZSAtLT4KICAgIDx0ZXh0IHg9Ijc1IiB5PSIyNTIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZmlsbD0iI2RkZGRkZCI+Q29tbWVudCBtb27DqXRpc2VyPC90ZXh0PgogICAgPHRleHQgeD0iNzUiIHk9IjI3NCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjZGRkZGRkIj5jZSBxdWUgdHUgc2FpcyBkw6lqw6AgZmFpcmUuPC90ZXh0PgogICAgCiAgICA8IS0tIEJvdHRvbSBiYXIgLS0+CiAgICA8cmVjdCB4PSI3NSIgeT0iNDc2IiB3aWR0aD0iMzYiIGhlaWdodD0iMi41IiBmaWxsPSIjQ0MwMDAwIi8+CiAgICA8dGV4dCB4PSI3NSIgeT0iNTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM0NDQ0NDQiIGxldHRlci1zcGFjaW5nPSIzIj5OSUNPRkFJVExFU0NIT1NFUzwvdGV4dD4KICAgIAogICAgPCEtLSBHcm91bmQgc2hhZG93IHVuZGVyIGJvb2sgLS0+CiAgICA8ZWxsaXBzZSBjeD0iMTcyIiBjeT0iNTI1IiByeD0iMTYwIiByeT0iMTIiIGZpbGw9IiMwMDAwMDAiIG9wYWNpdHk9IjAuNSIvPgogIDwvZz4KCiAgPCEtLSBSSUdIVCBTSURFIFRJVExFIC0tPgogIDx0ZXh0IHg9IjU2MCIgeT0iMjIwIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssIEltcGFjdCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI4NiIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI0NDMDAwMCIgbGV0dGVyLXNwYWNpbmc9Ii0yIj5UUk9VVkUgVE9OPC90ZXh0Pgo8dGV4dCB4PSI1NjAiIHk9IjMxNSIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBJbXBhY3QsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iODYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNDQzAwMDAiIGxldHRlci1zcGFjaW5nPSItMiI+UFJPRFVJVDwvdGV4dD4KPHRleHQgeD0iNTYwIiB5PSI0MTAiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjaywgSW1wYWN0LCBzYW5zLXNlcmlmIiBmb250LXNpemU9Ijg2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjQ0MwMDAwIiBsZXR0ZXItc3BhY2luZz0iLTIiPkRJR0lUQUw8L3RleHQ+CgogIAogIDwhLS0gU3VidGxlIHJlZCBhY2NlbnQgbGluZSB1bmRlciB0aXRsZSAtLT4KICA8cmVjdCB4PSI1NjAiIHk9IjUxNSIgd2lkdGg9IjYwIiBoZWlnaHQ9IjMiIGZpbGw9IiNDQzAwMDAiIG9wYWNpdHk9IjAuNiIvPgo8L3N2Zz4=" alt="Freebie"></div>
+      <div class="card-body">
+        <div class="card-obtiens">Tu repars avec :</div>
+        <ul class="card-bullets">
+          <li>Une id&eacute;e de produit claire et actionnable</li>
+          <li>La certitude que quelqu&apos;un en a besoin</li>
+          <li>Le point de d&eacute;part exact pour commencer</li>
+          <li>5 questions. 10 minutes. Z&eacute;ro blabla.</li>
+        </ul>
+        <div class="card-cta">
+          <div class="price-detail">
+            <div class="price-big free">GRATUIT</div>
+            <div class="price-sub">T&eacute;l&eacute;chargement imm&eacute;diat</div>
+          </div>
+          <span class="btn ghost">T&eacute;l&eacute;charger &rarr;</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="https://nicofaitleschoses.gumroad.com/l/ebook" target="_blank" class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-step">&Eacute;tape 2 &middot; Cr&eacute;ation</div>
+        <div class="card-name">CR&Eacute;E TON EBOOK EN 2H</div>
+      </div>
+      <div class="card-header-right">
+        <span class="btn">Obtenir &rarr;</span>
+      </div>
+    </div>
+    <div class="card-inner">
+      <div class="card-img"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDEyMDAgNjAwIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMGQwZDBkIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzE4MTgxOCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZmFjZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMyNTI1MjUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMGYwZjBmIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJzcGluZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMGEwYTBhIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzFlMWUxZSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0idG9wIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMzYTNhM2EiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMjIyMjIyIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGZpbHRlciBpZD0ic2hhZG93Ij4KICAgICAgPGZlRHJvcFNoYWRvdyBkeD0iMTAiIGR5PSIyMCIgc3RkRGV2aWF0aW9uPSIyMCIgZmxvb2QtY29sb3I9IiMwMDAwMDAiIGZsb29kLW9wYWNpdHk9IjAuOSIvPgogICAgPC9maWx0ZXI+CiAgICA8Y2xpcFBhdGggaWQ9ImJvb2tjbGlwIj4KICAgICAgPHJlY3QgeD0iNDUiIHk9IjYwIiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQ2MCIvPgogICAgPC9jbGlwUGF0aD4KICA8L2RlZnM+CiAgCiAgPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2JnKSIvPgogIDxlbGxpcHNlIGN4PSIyODAiIGN5PSI1NzAiIHJ4PSIyMjAiIHJ5PSIzMCIgZmlsbD0iIzAwMDAwMCIgb3BhY2l0eT0iMC42Ii8+CgogIDxnIGZpbHRlcj0idXJsKCNzaGFkb3cpIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4MCwgNTApIj4KICAgIDxwb2x5Z29uIHBvaW50cz0iMCw2MCA0NSwzMCA0NSw0OTAgMCw1MjAiIGZpbGw9InVybCgjc3BpbmUpIi8+CiAgICA8cG9seWdvbiBwb2ludHM9IjAsNjAgNDUsMzAgMzQ1LDMwIDMwMCw2MCIgZmlsbD0idXJsKCN0b3ApIi8+CiAgICA8cmVjdCB4PSI0NSIgeT0iNjAiIHdpZHRoPSIzMDAiIGhlaWdodD0iNDYwIiBmaWxsPSJ1cmwoI2ZhY2UpIi8+CiAgICA8bGluZSB4MT0iNDUiIHkxPSI2MCIgeDI9IjQ1IiB5Mj0iNTIwIiBzdHJva2U9IiMzYTNhM2EiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC41Ii8+CiAgICA8bGluZSB4MT0iNDUiIHkxPSI2MCIgeDI9IjM0NSIgeTI9IjYwIiBzdHJva2U9IiMzYTNhM2EiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC4zIi8+CgogICAgPGcgY2xpcC1wYXRoPSJ1cmwoI2Jvb2tjbGlwKSI+CiAgICAgIDx0ZXh0IHg9IjY4IiB5PSIxMDUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgZmlsbD0iI0NDMDAwMCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxldHRlci1zcGFjaW5nPSIyIj5OSUNPRkFJVExFU0NIT1NFUzwvdGV4dD4KICAgICAgPHJlY3QgeD0iNjgiIHk9IjExNCIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjMiIGZpbGw9IiNDQzAwMDAiLz4KICAgICAgCiAgICAgIDx0ZXh0IHg9IjY4IiB5PSIxNjUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjaywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI0NDMDAwMCI+Q1LDiUUgVE9OPC90ZXh0PgogICAgICA8dGV4dCB4PSI2OCIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzAiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNDQzAwMDAiPkVCT09LPC90ZXh0PgogICAgICA8dGV4dCB4PSI2OCIgeT0iMjM1IiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzAiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNDQzAwMDAiPkVOIDJIPC90ZXh0PgogICAgICAKICAgICAgPHJlY3QgeD0iNjgiIHk9IjI1MiIgd2lkdGg9IjM2IiBoZWlnaHQ9IjIuNSIgZmlsbD0iI0NDMDAwMCIvPgogICAgICAKICAgICAgPHRleHQgeD0iNjgiIHk9IjI3OCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSIjY2NjY2NjIj5BdmVjIGwnSUEuIFNhbnMgcGVyZHJlIGRlIHRlbXBzLjwvdGV4dD4KICAgICAgPHRleHQgeD0iNjgiIHk9IjI5OCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSIjY2NjY2NjIj5EZSBsJ2lkw6llIGF1IHByb2R1aXQgcHLDqnQgw6AgdmVuZHJlLjwvdGV4dD4KICAgICAgCiAgICAgIDxyZWN0IHg9IjY4IiB5PSI0NzYiIHdpZHRoPSIzNiIgaGVpZ2h0PSIyLjUiIGZpbGw9IiNDQzAwMDAiLz4KICAgICAgPHRleHQgeD0iNjgiIHk9IjQ5OCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIiBmaWxsPSIjNDQ0NDQ0IiBsZXR0ZXItc3BhY2luZz0iMiI+TklDT0ZBSVRMRVNDSE9TRVM8L3RleHQ+CiAgICA8L2c+CiAgICAKICAgIDxlbGxpcHNlIGN4PSIxNzIiIGN5PSI1MjUiIHJ4PSIxNjAiIHJ5PSIxMiIgZmlsbD0iIzAwMDAwMCIgb3BhY2l0eT0iMC41Ii8+CiAgPC9nPgoKICA8IS0tIFJJR0hUIFNJREUgVElUTEUgLS0+CiAgPHRleHQgeD0iNTYwIiB5PSIyMzAiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjaywgSW1wYWN0LCBzYW5zLXNlcmlmIiBmb250LXNpemU9Ijg2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjQ0MwMDAwIiBsZXR0ZXItc3BhY2luZz0iLTIiPkNSw4lFIFRPTjwvdGV4dD4KICA8dGV4dCB4PSI1NjAiIHk9IjMyNSIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBJbXBhY3QsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iODYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNDQzAwMDAiIGxldHRlci1zcGFjaW5nPSItMiI+RUJPT0sgRU4gMkg8L3RleHQ+CiAgPHJlY3QgeD0iNTYwIiB5PSIzNjAiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzIiBmaWxsPSIjQ0MwMDAwIiBvcGFjaXR5PSIwLjYiLz4KPC9zdmc+" alt="Ebook"></div>
+      <div class="card-body">
+        <div class="card-obtiens">Tu repars avec :</div>
+        <ul class="card-bullets">
+          <li>Un ebook complet cr&eacute;&eacute; avec l&apos;IA en 2h</li>
+          <li>Le prompt ultime pr&ecirc;t &agrave; coller dans Claude</li>
+          <li>Un produit mis en page et pr&ecirc;t &agrave; vendre</li>
+          <li>La m&eacute;thode pour le vendre d&egrave;s aujourd&apos;hui</li>
+        </ul>
+        <div class="card-cta">
+          <div class="price-detail">
+            <div class="price-big">9&euro;</div>
+            <div class="price-sub">Acc&egrave;s imm&eacute;diat</div>
+          </div>
+          <span class="btn">Obtenir &rarr;</span>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+
+<div class="cat-sep"></div>
+
+<!-- CAT 2 -->
+<div class="wrap" style="padding-top:44px;">
+  <div class="cat-head"><div class="cat-label">Cat&eacute;gorie 02</div><div class="cat-title">PUBLICATION &amp; VENTE</div></div>
+
+  <a href="https://nicofaitleschoses.gumroad.com/l/blueprint" target="_blank" class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-step">&Eacute;tape 3 &middot; Publication</div>
+        <div class="card-name">BLUEPRINT&nbsp;: D&Eacute;MARRE MAINTENANT</div>
+      </div>
+      <div class="card-header-right">
+        <span class="btn">Obtenir &rarr;</span>
+      </div>
+    </div>
+    <div class="card-inner">
+      <div class="card-img"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDEyMDAgNjAwIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMGQwZDBkIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzE4MTgxOCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZmFjZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMyNTI1MjUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMGYwZjBmIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJzcGluZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMGEwYTBhIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzFlMWUxZSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0idG9wIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMzYTNhM2EiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMjIyMjIyIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGZpbHRlciBpZD0ic2hhZG93Ij4KICAgICAgPGZlRHJvcFNoYWRvdyBkeD0iMTAiIGR5PSIyMCIgc3RkRGV2aWF0aW9uPSIyMCIgZmxvb2QtY29sb3I9IiMwMDAwMDAiIGZsb29kLW9wYWNpdHk9IjAuOSIvPgogICAgPC9maWx0ZXI+CiAgICA8Y2xpcFBhdGggaWQ9ImJvb2tjbGlwIj4KICAgICAgPHJlY3QgeD0iNDUiIHk9IjYwIiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQ2MCIvPgogICAgPC9jbGlwUGF0aD4KICA8L2RlZnM+CiAgCiAgPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2JnKSIvPgogIDxlbGxpcHNlIGN4PSIyODAiIGN5PSI1NzAiIHJ4PSIyMjAiIHJ5PSIzMCIgZmlsbD0iIzAwMDAwMCIgb3BhY2l0eT0iMC42Ii8+CgogIDxnIGZpbHRlcj0idXJsKCNzaGFkb3cpIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4MCwgNTApIj4KICAgIDxwb2x5Z29uIHBvaW50cz0iMCw2MCA0NSwzMCA0NSw0OTAgMCw1MjAiIGZpbGw9InVybCgjc3BpbmUpIi8+CiAgICA8cG9seWdvbiBwb2ludHM9IjAsNjAgNDUsMzAgMzQ1LDMwIDMwMCw2MCIgZmlsbD0idXJsKCN0b3ApIi8+CiAgICA8cmVjdCB4PSI0NSIgeT0iNjAiIHdpZHRoPSIzMDAiIGhlaWdodD0iNDYwIiBmaWxsPSJ1cmwoI2ZhY2UpIi8+CiAgICA8bGluZSB4MT0iNDUiIHkxPSI2MCIgeDI9IjQ1IiB5Mj0iNTIwIiBzdHJva2U9IiMzYTNhM2EiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC41Ii8+CiAgICA8bGluZSB4MT0iNDUiIHkxPSI2MCIgeDI9IjM0NSIgeTI9IjYwIiBzdHJva2U9IiMzYTNhM2EiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC4zIi8+CgogICAgPCEtLSBCb29rIGNvbnRlbnQgY2xpcHBlZCBpbnNpZGUgYm9vayBmYWNlIC0tPgogICAgPGcgY2xpcC1wYXRoPSJ1cmwoI2Jvb2tjbGlwKSI+CiAgICAgIDx0ZXh0IHg9IjY4IiB5PSIxMDUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgZmlsbD0iI0NDMDAwMCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxldHRlci1zcGFjaW5nPSIyIj5OSUNPRkFJVExFU0NIT1NFUzwvdGV4dD4KICAgICAgPHJlY3QgeD0iNjgiIHk9IjExNCIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjMiIGZpbGw9IiNDQzAwMDAiLz4KICAgICAgCiAgICAgIDx0ZXh0IHg9IjY4IiB5PSIxNTgiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjaywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI0NDMDAwMCI+QkxVRVBSSU5UOjwvdGV4dD4KICAgICAgPHRleHQgeD0iNjgiIHk9IjE5MiIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5Ew4lNQVJSRTwvdGV4dD4KICAgICAgPHRleHQgeD0iNjgiIHk9IjIyNiIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5NQUlOVEVOQU5UPC90ZXh0PgogICAgICAKICAgICAgPHJlY3QgeD0iNjgiIHk9IjI0MiIgd2lkdGg9IjM2IiBoZWlnaHQ9IjIuNSIgZmlsbD0iI0NDMDAwMCIvPgogICAgICAKICAgICAgPHRleHQgeD0iNjgiIHk9IjI2OCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSIjY2NjY2NjIj5MZSBraXQgcG91ciBwdWJsaWVyIGTDqHMgYXVqb3VyZCdodWk8L3RleHQ+CiAgICAgIDx0ZXh0IHg9IjY4IiB5PSIyODgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2NjY2NjYyI+c2FucyBjaGVyY2hlciBwZW5kYW50IGRlcyBoZXVyZXMuPC90ZXh0PgogICAgICAKICAgICAgPHJlY3QgeD0iNjgiIHk9IjQ3NiIgd2lkdGg9IjM2IiBoZWlnaHQ9IjIuNSIgZmlsbD0iI0NDMDAwMCIvPgogICAgICA8dGV4dCB4PSI2OCIgeT0iNDk4IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM0NDQ0NDQiIGxldHRlci1zcGFjaW5nPSIyIj5OSUNPRkFJVExFU0NIT1NFUzwvdGV4dD4KICAgIDwvZz4KICAgIAogICAgPGVsbGlwc2UgY3g9IjE3MiIgY3k9IjUyNSIgcng9IjE2MCIgcnk9IjEyIiBmaWxsPSIjMDAwMDAwIiBvcGFjaXR5PSIwLjUiLz4KICA8L2c+CgogIDwhLS0gUklHSFQgU0lERSBUSVRMRSAtLT4KICA8dGV4dCB4PSI1NjAiIHk9IjIyMCIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBJbXBhY3QsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iODYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNDQzAwMDAiIGxldHRlci1zcGFjaW5nPSItMiI+QkxVRVBSSU5UOjwvdGV4dD4KICA8dGV4dCB4PSI1NjAiIHk9IjMxNSIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBJbXBhY3QsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iODYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZmZmZmYiIGxldHRlci1zcGFjaW5nPSItMiI+RMOJTUFSUkU8L3RleHQ+CiAgPHRleHQgeD0iNTYwIiB5PSI0MTAiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjaywgSW1wYWN0LCBzYW5zLXNlcmlmIiBmb250LXNpemU9Ijg2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIiBsZXR0ZXItc3BhY2luZz0iLTIiPk1BSU5URU5BTlQ8L3RleHQ+CiAgPHJlY3QgeD0iNTYwIiB5PSI0MzAiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzIiBmaWxsPSIjQ0MwMDAwIiBvcGFjaXR5PSIwLjYiLz4KPC9zdmc+" alt="Blueprint"></div>
+      <div class="card-body">
+        <div class="card-obtiens">Tu repars avec :</div>
+        <ul class="card-bullets">
+          <li>40 hooks pr&ecirc;ts &agrave; copier-coller</li>
+          <li>24 CTA qui poussent &agrave; l&apos;action</li>
+          <li>20 structures de posts &eacute;prouv&eacute;es</li>
+          <li>3 prompts IA — la page blanche dispara&icirc;t</li>
+        </ul>
+        <div class="card-cta">
+          <div class="price-detail">
+            <div class="price-big">9&euro;</div>
+            <div class="price-sub">Acc&egrave;s imm&eacute;diat</div>
+          </div>
+          <span class="btn">Obtenir &rarr;</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="https://nicofaitleschoses.gumroad.com/l/systeme" target="_blank" class="card">
+    <div class="card-header">
+      <div class="card-header-left">
+        <div class="card-step">&Eacute;tape 4 &middot; Automatisation</div>
+        <div class="card-name">SYST&Egrave;ME THREADS</div>
+      </div>
+      <div class="card-header-right">
+        <span class="btn">Obtenir &rarr;</span>
+      </div>
+    </div>
+    <div class="card-inner">
+      <div class="card-img"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDEyMDAgNjAwIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmdib29rX3N5c3RlbWUuc3ZnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzBkMGQwZCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMxODE4MTgiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImZhY2Vib29rX3N5c3RlbWUuc3ZnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzI1MjUyNSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMwZjBmMGYiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InNwaW5lYm9va19zeXN0ZW1lLnN2ZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMGEwYTBhIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzFlMWUxZSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0idG9wYm9va19zeXN0ZW1lLnN2ZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojM2EzYTNhIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzIyMjIyMiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxmaWx0ZXIgaWQ9InNoYWRvd2Jvb2tfc3lzdGVtZS5zdmciPgogICAgICA8ZmVEcm9wU2hhZG93IGR4PSIxMCIgZHk9IjIwIiBzdGREZXZpYXRpb249IjIwIiBmbG9vZC1jb2xvcj0iIzAwMDAwMCIgZmxvb2Qtb3BhY2l0eT0iMC45Ii8+CiAgICA8L2ZpbHRlcj4KICAgIDxmaWx0ZXIgaWQ9Imdsb3ciPgogICAgICA8ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIzIiByZXN1bHQ9ImJsdXIiLz4KICAgICAgPGZlTWVyZ2U+PGZlTWVyZ2VOb2RlIGluPSJibHVyIi8+PGZlTWVyZ2VOb2RlIGluPSJTb3VyY2VHcmFwaGljIi8+PC9mZU1lcmdlPgogICAgPC9maWx0ZXI+CiAgPC9kZWZzPgogIAogIDwhLS0gQmFja2dyb3VuZCAtLT4KICA8cmVjdCB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9InVybCgjYmdib29rX3N5c3RlbWUuc3ZnKSIvPgogIAogIDwhLS0gU3VidGxlIGdyb3VuZCByZWZsZWN0aW9uL2dsb3cgLS0+CiAgPGVsbGlwc2UgY3g9IjI4MCIgY3k9IjU3MCIgcng9IjIyMCIgcnk9IjMwIiBmaWxsPSIjMDAwMDAwIiBvcGFjaXR5PSIwLjYiLz4KICA8ZWxsaXBzZSBjeD0iMjgwIiBjeT0iNTU1IiByeD0iMTUwIiByeT0iMTUiIGZpbGw9IiNDQzAwMDAiIG9wYWNpdHk9IjAuMDUiLz4KCiAgPCEtLSBCT09LIEdST1VQIC0tPgogIDxnIGZpbHRlcj0idXJsKCNzaGFkb3dib29rX3N5c3RlbWUuc3ZnKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODAsIDUwKSI+CiAgICA8IS0tIEJvb2sgc3BpbmUgKGxlZnQgcGFyYWxsZWxvZ3JhbSkgLS0+CiAgICA8cG9seWdvbiBwb2ludHM9IjAsNjAgNDUsMzAgNDUsNDkwIDAsNTIwIiBmaWxsPSJ1cmwoI3NwaW5lYm9va19zeXN0ZW1lLnN2ZykiLz4KICAgIDwhLS0gQm9vayB0b3AgLS0+CiAgICA8cG9seWdvbiBwb2ludHM9IjAsNjAgNDUsMzAgMzQ1LDMwIDMwMCw2MCIgZmlsbD0idXJsKCN0b3Bib29rX3N5c3RlbWUuc3ZnKSIvPgogICAgPCEtLSBCb29rIGZhY2UgKGZyb250KSAtLT4KICAgIDxyZWN0IHg9IjQ1IiB5PSI2MCIgd2lkdGg9IjMwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjZmFjZWJvb2tfc3lzdGVtZS5zdmcpIi8+CiAgICAKICAgIDwhLS0gU3VidGxlIGVkZ2UgaGlnaGxpZ2h0IC0tPgogICAgPGxpbmUgeDE9IjQ1IiB5MT0iNjAiIHgyPSI0NSIgeTI9IjUyMCIgc3Ryb2tlPSIjM2EzYTNhIiBzdHJva2Utd2lkdGg9IjEiIG9wYWNpdHk9IjAuNSIvPgogICAgPGxpbmUgeDE9IjQ1IiB5MT0iNjAiIHgyPSIzNDUiIHkyPSI2MCIgc3Ryb2tlPSIjM2EzYTNhIiBzdHJva2Utd2lkdGg9IjEiIG9wYWNpdHk9IjAuMyIvPgoKICAgIDwhLS0gQm9vayBjb250ZW50IC0gYWxsIGNvbnRhaW5lZCB3aXRoaW4geDozMC0yNzAgcmVsYXRpdmUgdG8gZmFjZSBzdGFydCAoNzUtMzE1IGFic29sdXRlIGluIGdyb3VwKSAtLT4KICAgIDx0ZXh0IHg9Ijc1IiB5PSIxMDgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgZmlsbD0iI0NDMDAwMCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxldHRlci1zcGFjaW5nPSIzIj5OSUNPRkFJVExFU0NIT1NFUzwvdGV4dD4KICAgIAogICAgPCEtLSBUb3AgcmVkIGJhciAtLT4KICAgIDxyZWN0IHg9Ijc1IiB5PSIxMTgiIHdpZHRoPSI0NCIgaGVpZ2h0PSIzIiBmaWxsPSIjQ0MwMDAwIi8+CiAgICAKICAgIDwhLS0gQm9vayB0aXRsZSBsaW5lcyAtIGNvbnN0cmFpbmVkIC0tPgogICAgPHRleHQgeD0iNzUiIHk9IjE2OCIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjQ0MwMDAwIj5TWVNUw4hNRTwvdGV4dD4KICAgIDx0ZXh0IHg9Ijc1IiB5PSIyMDQiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjaywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI0NDMDAwMCI+VEhSRUFEUzwvdGV4dD4KICAgIAogICAgCiAgICA8IS0tIERpdmlkZXIgLS0+CiAgICA8cmVjdCB4PSI3NSIgeT0iMjU0IiB3aWR0aD0iMzYiIGhlaWdodD0iMi41IiBmaWxsPSIjQ0MwMDAwIi8+CiAgICAKICAgIDwhLS0gU3VidGl0bGUgLS0+CiAgICA8dGV4dCB4PSI3NSIgeT0iMjc2IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiNkZGRkZGQiPkNvbnN0cnVpcmUgdW4gY29tcHRlIHZpc2libGU8L3RleHQ+CiAgICA8dGV4dCB4PSI3NSIgeT0iMjk4IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiNkZGRkZGQiPmV0IHJlbnRhYmxlLjwvdGV4dD4KICAgIAogICAgPCEtLSBCb3R0b20gYmFyIC0tPgogICAgPHJlY3QgeD0iNzUiIHk9IjQ3NiIgd2lkdGg9IjM2IiBoZWlnaHQ9IjIuNSIgZmlsbD0iI0NDMDAwMCIvPgogICAgPHRleHQgeD0iNzUiIHk9IjUwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIiBmaWxsPSIjNDQ0NDQ0IiBsZXR0ZXItc3BhY2luZz0iMyI+TklDT0ZBSVRMRVNDSE9TRVM8L3RleHQ+CiAgICAKICAgIDwhLS0gR3JvdW5kIHNoYWRvdyB1bmRlciBib29rIC0tPgogICAgPGVsbGlwc2UgY3g9IjE3MiIgY3k9IjUyNSIgcng9IjE2MCIgcnk9IjEyIiBmaWxsPSIjMDAwMDAwIiBvcGFjaXR5PSIwLjUiLz4KICA8L2c+CgogIDwhLS0gUklHSFQgU0lERSBUSVRMRSAtLT4KICA8dGV4dCB4PSI1NjAiIHk9IjIyMCIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBJbXBhY3QsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iODYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNDQzAwMDAiIGxldHRlci1zcGFjaW5nPSItMiI+U1lTVMOITUU8L3RleHQ+Cjx0ZXh0IHg9IjU2MCIgeT0iMzE1IiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssIEltcGFjdCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI4NiIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI2ZmZmZmZiIgbGV0dGVyLXNwYWNpbmc9Ii0yIj5USFJFQURTPC90ZXh0PgoKICAKICA8IS0tIFN1YnRsZSByZWQgYWNjZW50IGxpbmUgdW5kZXIgdGl0bGUgLS0+CiAgPHJlY3QgeD0iNTYwIiB5PSI0MjAiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzIiBmaWxsPSIjQ0MwMDAwIiBvcGFjaXR5PSIwLjYiLz4KPC9zdmc+" alt="Systeme Threads"></div>
+      <div class="card-body">
+        <div class="card-obtiens">Tu repars avec :</div>
+        <ul class="card-bullets">
+          <li>Poste 10x/jour en seulement 2h/semaine</li>
+          <li>De z&eacute;ro &agrave; 120 000 vues en 20 jours</li>
+          <li>La m&eacute;thode compl&egrave;te cr&eacute;er + programmer</li>
+          <li>Un syst&egrave;me qui tourne sans toi</li>
+        </ul>
+        <div class="card-cta">
+          <div class="price-detail">
+            <div class="price-big">27&euro;</div>
+            <div class="price-sub">Acc&egrave;s imm&eacute;diat</div>
+          </div>
+          <span class="btn">Obtenir &rarr;</span>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+
+<!-- BOTTOM LEAD -->
+<div class="bottom-lead">
+  <h3>Pas encore pr&ecirc;t &agrave; acheter&nbsp;?<br><em>Commence gratuitement.</em></h3>
+  <p>Entre ton email. Re&ccedil;ois le guide. Trouve ce que tu vends.<br>Le reste suit naturellement.</p>
+  <div class="lead-form" id="form-bottom" style="margin-top:0;">
+    <input type="email" id="email-bottom" placeholder="Ton adresse email..." autocomplete="email">
+    <button class="lead-btn" onclick="subscribe('email-bottom','msg-bottom')">Recevoir le guide &rarr;</button>
+  </div>
+  <div id="msg-bottom" style="margin-top:12px;font-size:13px;color:#aaa;display:none;"></div>
+</div>
+
+<footer><span>NICOFAITLESCHOSES &middot; Build. Scale. Mon&eacute;tise.</span></footer>
+
+
+<script>
+async function subscribe(inputId, msgId) {
+  var email = document.getElementById(inputId).value.trim();
+  var msgEl = document.getElementById(msgId);
+  
+  if (!email || !email.includes('@')) {
+    msgEl.style.display = 'block';
+    msgEl.style.color = '#ffaaaa';
+    msgEl.textContent = 'Entre une adresse email valide.';
+    return;
+  }
+
+  msgEl.style.display = 'block';
+  msgEl.style.color = '#fff';
+  msgEl.textContent = 'Envoi en cours...';
+
+  try {
+    var res = await fetch('https://api.brevo.com/v3/contacts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-key': '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'
+      },
+      body: JSON.stringify({
+        email: email,
+        listIds: [3],
+        updateEnabled: true
+      })
+    });
+
+    if (res.status === 201 || res.status === 204) {
+      // Send freebie email via Brevo transactional
+      await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'api-key': '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'
+        },
+        body: JSON.stringify({
+          sender: { name: 'Nico', email: 'masia.nicolas.07@gmail.com' },
+          to: [{ email: email }],
+          subject: 'Ton guide gratuit — Trouve ton produit digital',
+          htmlContent: '<div style="font-family:Inter,sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;background:#fff;"><h2 style="font-size:24px;color:#CC0000;margin-bottom:8px;">NICOFAITLESCHOSES</h2><p style="color:#555;font-size:14px;line-height:1.7;margin-bottom:24px;">Voilà ton guide gratuit.<br>5 questions. 10 minutes. Une direction claire.</p><a href="https://nicofaitleschoses.gumroad.com/l/freebie" style="display:inline-block;background:#CC0000;color:#fff;text-decoration:none;padding:14px 28px;font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;">Télécharger le guide →</a><p style="color:#aaa;font-size:11px;margin-top:32px;">Tu reçois cet email parce que tu as demandé le guide sur nicofaitleschoses.com</p></div>'
+        })
+      });
+
+      msgEl.style.color = '#90ee90';
+      msgEl.textContent = '✓ Guide envoyé ! Vérifie ta boite mail.';
+      document.getElementById(inputId).value = '';
+    } else {
+      msgEl.style.color = '#ffaaaa';
+      msgEl.textContent = 'Une erreur est survenue. Réessaie.';
+    }
+  } catch(e) {
+    msgEl.style.color = '#ffaaaa';
+    msgEl.textContent = 'Erreur de connexion. Réessaie.';
+  }
+}
+</script>
+</body>
+</html>
